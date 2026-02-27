@@ -1,0 +1,208 @@
+{
+  "modelId": "google/gemini-3-flash-preview",
+  "modelName": "Google Gemini Flash 3",
+  "version": "1.0",
+  "generatedAt": "2026-02-27T07:20:43.923Z",
+  "patternsTested": 1000,
+  "successRate": 1.0,
+  "optimizationRules": [
+    {
+      "priority": "CRITICAL",
+      "dimension": "outputSpec",
+      "confidence": 1.0,
+      "rule": "Always specify JSON output format when requesting structured data",
+      "action": "ADD_JSON_SCHEMA",
+      "evidence": {
+        "bestValue": "json",
+        "bestScore": 0.999,
+        "worstValue": "code_only",
+        "worstScore": 0.718,
+        "improvement": "28.1%"
+      },
+      "ranking": [
+        {"value": "json", "mean": 0.999, "n": 192, "std": 0.011, "verdict": "BEST"},
+        {"value": "markdown", "mean": 0.99, "n": 225, "std": 0.094, "verdict": "GOOD"},
+        {"value": "free_form", "mean": 0.99, "n": 171, "std": 0.083, "verdict": "GOOD"},
+        {"value": "structured_template", "mean": 0.978, "n": 208, "std": 0.142, "verdict": "ACCEPTABLE"},
+        {"value": "code_only", "mean": 0.718, "n": 204, "std": 0.438, "verdict": "AVOID"}
+      ],
+      "examples": {
+        "bad": "List the features",
+        "good": "List the features in JSON format: {\"features\": [...]}"
+      }
+    },
+    {
+      "priority": "HIGH",
+      "dimension": "structure",
+      "confidence": 0.291,
+      "rule": "Use few-shot examples, decomposed steps, or conditional logic",
+      "action": "RESTRUCTURE_WITH_EXAMPLES",
+      "evidence": {
+        "bestValue": "few_shot",
+        "bestScore": 0.972,
+        "worstValue": "chain_of_thought",
+        "worstScore": 0.883,
+        "improvement": "8.9%"
+      },
+      "ranking": [
+        {"value": "few_shot", "mean": 0.972, "n": 86, "std": 0.153, "verdict": "BEST"},
+        {"value": "decomposed", "mean": 0.971, "n": 93, "std": 0.161, "verdict": "BEST"},
+        {"value": "conditional", "mean": 0.959, "n": 110, "std": 0.189, "verdict": "GOOD"},
+        {"value": "constraint_first", "mean": 0.959, "n": 113, "std": 0.191, "verdict": "GOOD"},
+        {"value": "imperative", "mean": 0.948, "n": 101, "std": 0.217, "verdict": "ACCEPTABLE"},
+        {"value": "role_play", "mean": 0.931, "n": 118, "std": 0.251, "verdict": "ACCEPTABLE"},
+        {"value": "interrogative", "mean": 0.925, "n": 96, "std": 0.26, "verdict": "ACCEPTABLE"},
+        {"value": "enumerated", "mean": 0.897, "n": 100, "std": 0.289, "verdict": "ACCEPTABLE"},
+        {"value": "output_template", "mean": 0.886, "n": 88, "std": 0.317, "verdict": "LOW"},
+        {"value": "chain_of_thought", "mean": 0.883, "n": 95, "std": 0.309, "verdict": "LOW"}
+      ],
+      "examples": {
+        "bad": "Analyze the data and provide insights",
+        "good": "Analyze the data following these examples:\nExample 1: Input: [1,2,3] → Output: {\"mean\": 2, \"trend\": \"stable\"}\nExample 2: Input: [5,10,15] → Output: {\"mean\": 10, \"trend\": \"increasing\"}\nNow analyze: [data]"
+      }
+    },
+    {
+      "priority": "MEDIUM",
+      "dimension": "constraintStyle",
+      "confidence": 0.165,
+      "rule": "Frame constraints positively or use bulleted lists",
+      "action": "REFRAME_CONSTRAINTS",
+      "evidence": {
+        "bestValue": "positive",
+        "bestScore": 0.96,
+        "worstValue": "negative",
+        "worstScore": 0.897,
+        "improvement": "6.3%"
+      },
+      "ranking": [
+        {"value": "positive", "mean": 0.96, "n": 212, "std": 0.191, "verdict": "BEST"},
+        {"value": "bulleted", "mean": 0.96, "n": 206, "std": 0.184, "verdict": "BEST"},
+        {"value": "inline", "mean": 0.936, "n": 201, "std": 0.238, "verdict": "GOOD"},
+        {"value": "none", "mean": 0.909, "n": 179, "std": 0.285, "verdict": "ACCEPTABLE"},
+        {"value": "negative", "mean": 0.897, "n": 202, "std": 0.291, "verdict": "AVOID"}
+      ],
+      "examples": {
+        "bad": "Don't include personal information. Don't use technical jargon.",
+        "good": "Include only public information. Use accessible language."
+      }
+    },
+    {
+      "priority": "LOW",
+      "dimension": "tone",
+      "confidence": 0.078,
+      "rule": "Use conversational or casual tone for better engagement",
+      "action": "ADJUST_TONE",
+      "evidence": {
+        "bestValue": "conversational",
+        "bestScore": 0.955,
+        "worstValue": "formal",
+        "worstScore": 0.923,
+        "improvement": "3.2%"
+      },
+      "ranking": [
+        {"value": "conversational", "mean": 0.955, "n": 253, "std": 0.204, "verdict": "BEST"},
+        {"value": "casual", "mean": 0.929, "n": 257, "std": 0.252, "verdict": "GOOD"},
+        {"value": "technical", "mean": 0.927, "n": 252, "std": 0.248, "verdict": "ACCEPTABLE"},
+        {"value": "formal", "mean": 0.923, "n": 238, "std": 0.259, "verdict": "LOW"}
+      ],
+      "examples": {
+        "bad": "Please provide a comprehensive analysis of the aforementioned dataset.",
+        "good": "Can you analyze this dataset? I'd like to understand the key patterns."
+      }
+    },
+    {
+      "priority": "MINIMAL",
+      "dimension": "contextPlacement",
+      "confidence": 0.063,
+      "rule": "Prefer context-free prompts or place context after instruction",
+      "action": "REORDER_CONTEXT",
+      "evidence": {
+        "bestValue": "none",
+        "bestScore": 0.948,
+        "worstValue": "interleaved",
+        "worstScore": 0.921,
+        "improvement": "2.7%"
+      },
+      "ranking": [
+        {"value": "none", "mean": 0.948, "n": 254, "std": 0.215, "verdict": "BEST"},
+        {"value": "after_instruction", "mean": 0.934, "n": 238, "std": 0.233, "verdict": "GOOD"},
+        {"value": "before_instruction", "mean": 0.932, "n": 254, "std": 0.25, "verdict": "ACCEPTABLE"},
+        {"value": "interleaved", "mean": 0.921, "n": 254, "std": 0.265, "verdict": "LOW"}
+      ],
+      "examples": {
+        "bad": "Context: For business review. Instruction: Summarize.",
+        "good": "Summarize the key points. Context: This is for a quarterly business review."
+      }
+    },
+    {
+      "priority": "MINIMAL",
+      "dimension": "detail",
+      "confidence": 0.046,
+      "rule": "Minimal detail works slightly better, but differences are marginal",
+      "action": "SIMPLIFY_IF_VERBOSE",
+      "evidence": {
+        "bestValue": "minimal",
+        "bestScore": 0.943,
+        "worstValue": "moderate",
+        "worstScore": 0.922,
+        "improvement": "2.1%"
+      },
+      "ranking": [
+        {"value": "minimal", "mean": 0.943, "n": 307, "std": 0.229, "verdict": "BEST"},
+        {"value": "verbose", "mean": 0.938, "n": 339, "std": 0.237, "verdict": "ACCEPTABLE"},
+        {"value": "moderate", "mean": 0.922, "n": 354, "std": 0.257, "verdict": "ACCEPTABLE"}
+      ],
+      "note": "Difference is only 2.1%, choose based on task requirements"
+    }
+  ],
+  "rewriteWorkflow": [
+    {
+      "step": 1,
+      "name": "Analyze",
+      "description": "Identify core instruction, context, constraints, and current output format"
+    },
+    {
+      "step": 2,
+      "name": "Apply CRITICAL rules",
+      "threshold": 0.5,
+      "actions": ["ADD_JSON_SCHEMA", "AVOID_CODE_ONLY"]
+    },
+    {
+      "step": 3,
+      "name": "Apply HIGH priority rules",
+      "threshold": 0.2,
+      "actions": ["RESTRUCTURE_WITH_EXAMPLES", "DECOMPOSE_STEPS", "USE_CONDITIONAL_LOGIC"]
+    },
+    {
+      "step": 4,
+      "name": "Apply MEDIUM priority rules",
+      "threshold": 0.1,
+      "actions": ["REFRAME_CONSTRAINTS", "FORMAT_AS_BULLETS"]
+    },
+    {
+      "step": 5,
+      "name": "Apply LOW priority rules",
+      "threshold": 0.05,
+      "actions": ["ADJUST_TONE", "REORDER_CONTEXT", "SIMPLIFY_IF_VERBOSE"]
+    },
+    {
+      "step": 6,
+      "name": "Verify",
+      "checklist": [
+        "Maintains user's original intent",
+        "Uses JSON format for structured data",
+        "Includes examples or decomposition for complex tasks",
+        "Uses positive constraint framing",
+        "Has conversational tone",
+        "Is concise but complete"
+      ]
+    }
+  ],
+  "quickReference": {
+    "alwaysApply": ["JSON output format for structured data"],
+    "highlyRecommended": ["Few-shot examples", "Decomposed steps", "Positive constraints"],
+    "recommended": ["Bulleted requirements", "Conversational tone"],
+    "optional": ["Context placement optimization", "Minimal detail level"],
+    "avoid": ["code_only format", "Negative constraint phrasing", "Chain-of-thought structure"]
+  }
+}
