@@ -144,10 +144,55 @@ export class EvaluationEngine {
   }
 
   private async saveResults(dir: string, results: EvaluationResult[]): Promise<void> {
+    // Save JSON format
     await writeFile(
       join(dir, 'results.json'),
       JSON.stringify(results, null, 2),
     );
+
+    // Save CSV format
+    await this.saveResultsCSV(dir, results);
+  }
+
+  private async saveResultsCSV(dir: string, results: EvaluationResult[]): Promise<void> {
+    if (results.length === 0) return;
+
+    const headers = [
+      'patternId',
+      'modelId',
+      'instruction_adherence',
+      'format_compliance',
+      'completeness',
+      'clarity',
+      'no_hallucination',
+      'overall',
+      'latencyMs',
+      'promptTokens',
+      'completionTokens',
+      'response_preview',
+    ];
+
+    const rows = results.map(r => [
+      r.patternId,
+      r.modelId,
+      r.scores.instruction_adherence.toFixed(3),
+      r.scores.format_compliance.toFixed(3),
+      r.scores.completeness.toFixed(3),
+      r.scores.clarity.toFixed(3),
+      r.scores.no_hallucination.toFixed(3),
+      r.scores.overall.toFixed(3),
+      r.latencyMs,
+      r.tokenUsage.prompt,
+      r.tokenUsage.completion,
+      r.response.substring(0, 100).replace(/[\r\n]+/g, ' ').replace(/,/g, ';'),
+    ]);
+
+    const csv = [
+      headers.join(','),
+      ...rows.map(row => row.join(',')),
+    ].join('\n');
+
+    await writeFile(join(dir, 'results.csv'), csv);
   }
 }
 
